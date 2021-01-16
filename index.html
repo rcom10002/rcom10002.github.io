@@ -22,6 +22,7 @@
       background-color: crimson;
       color: white;
       padding: 6px;
+      font-size: 24px;
     }
 
     body {
@@ -35,12 +36,13 @@
 </head>
 
 <body>
-  <p id="timeTip">现在时间：<span id="nowTime"></span></p>
+  <div id="timeTip">现在时间：<span id="nowTime"></span></div>
   <p id="content"></p>
   <script id="contentItemTemplate" type="text/template">
     <div class="agendaOption">
       <p class="timeLine">
         <span class="timeIndicator"></span>
+        <progress class="timeProgress" value="#{PROGRESS_VALUE}" max="#{PROGRESS_MAX}"></progress>
       </p>
       <p class="title"><label><input type="checkbox" />#{AGENDA_RULE}</label></p>
     </div>
@@ -108,7 +110,16 @@
      *
      */
     function isTimeBetween(timeStart, timeEnd, timeSlot) {
-      return diffTimeByMinutes(timeStart, timeSlot) > 0 && diffTimeByMinutes(timeSlot, timeEnd) > 0;
+      return diffTimeByMinutes(timeStart, timeSlot) >= 0 && diffTimeByMinutes(timeSlot, timeEnd) >= 0;
+    }
+    
+    /**
+     *
+     */
+    function paintProgress(value, max, i) {
+      var progressElement = document.getElementsByClassName("timeProgress")[i];
+      progressElement.value = value;
+      progressElement.max = max;
     }
 
     /**
@@ -129,16 +140,21 @@
       var nowTime = nowTimeOfHourMinuteFormat();
       for (var i = 0; i < agendaOptionSet.length; i++) {
         var agendaOption = agendaOptionSet[i];
+        var timeLength = agendaOptionSet[i].timeLength;
         if (diffTimeByMinutes(nowTime, agendaOption.timeStart) > 0) {
-          timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
+          timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(timeLength);
           agendaOption.elementTop.style.backgroundColor = "";
+          paintProgress(0, timeLength, i);
         } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime) >= 0) {
-          timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
+          timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(timeLength);
           agendaOption.elementTop.style.backgroundColor = "";
-        }
-        if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
-          timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(diffTimeByMinutes(agendaOption.timeStart, nowTime)) + TIME_LEFT_ICON.repeat(diffTimeByMinutes(nowTime, agendaOption.timeEnd));
+          paintProgress(timeLength, timeLength, i);
+        } else if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
+          var timeUsed = diffTimeByMinutes(agendaOption.timeStart, nowTime);
+          var timeLeft = diffTimeByMinutes(nowTime, agendaOption.timeEnd);
+          timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(timeUsed) + TIME_LEFT_ICON.repeat(timeLeft);
           agendaOption.elementTop.style.backgroundColor = ACTIVE_COLOR;
+          paintProgress(timeUsed, timeLength, i);
         }
       }
     }
