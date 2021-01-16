@@ -8,7 +8,7 @@
       function parseTimeRange(){}
       function paintTimeLine(){}
       function paintNowTime(){
-        document.getElementById("nowTime").innerHTML = new Date().toJSON().repace(/[.].+Z/, '');
+        document.getElementById("nowTime").innerHTML = new Date().toJSON().replace(/[.].+Z/, '').replace(/T/, ' ');
       }
       function configureTimer() {
           setInterval(paintNowTime, 1000)
