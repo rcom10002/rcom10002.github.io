@@ -13,7 +13,7 @@
         for (var i = 0; i < agendaList.length; i++) {
           var agendaOptionText = agendaList[i].innerHTML.trim();
           agendaOption = {};
-          agendaOption.timeBegin = agendaOptionText.replace(/^(.{5}).+$/, "$1");
+          agendaOption.timeStart = agendaOptionText.replace(/^(.{5}).+$/, "$1");
           agendaOption.timeEnd = agendaOptionText.replace(/^.{6}(.{5}).+$/, "$1");
           agendaOption.timeLength = diffTimeByMinutes(agendaOption.timeStart, agendaOption.timeEnd);
           agendaOption.title = agendaOptionText.substr(12);
@@ -24,8 +24,14 @@
         return (timeEnd.substr(0, 2) - timeStart.substr(0, 2)) * 60 + (timeEnd.substr(3, 2) - 0) - timeStart.substr(3, 2);
       }
       function paintTimeLine(){
+        if (!this.initialised) {
+          for (var i = 0; i < agendaOptionSet.length; i++) {
+            document.getElementsByTagName("span")[i].innerHTML = "■".repeat(agendaOption.timeLength);
+          }
+          this.initialised = true;
+        }
         for (var i = 0; i < agendaOptionSet.length; i++) {
-          document.getElementsByTagName("span")[i].innerHTML = "■□";
+          document.getElementsByTagName("span")[i].innerHTML = "■".repeat(agendaOption.timeLength);
         }
       }
       function paintNowTime(){
