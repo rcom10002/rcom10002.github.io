@@ -23,6 +23,7 @@
     body {
       padding: 0;
       margin: 0;
+      font-family: "SimHei";
     }
   </style>
 
@@ -32,8 +33,13 @@
   <p id="timeTip">现在时间：<span id="nowTime"></span></p>
   <p id="content"></p>
   <script id="contentItemTemplate" type="text/template">
-      <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">#{AGENDA_RULE}</p></p>
-    </script>
+    <p class="agendaOption">
+      <p class="timeLine">
+        <span class="timeIndicator"></span>
+      </p>
+      <p class="title">#{AGENDA_RULE}</p>
+    </p>
+  </script>
   <script type="text/javascript">
     var AGENDA_RULE_SET = [
       "09:30~10:15 数学小卷三页",
