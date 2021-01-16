@@ -1,7 +1,10 @@
 <html>
   <head>
     <style type="text/css">
-      
+      .title {
+        position: relative;
+        top: -12px;
+      }
     </style>
     <script>
       var TIME_USED_ICON = "■";
@@ -69,10 +72,10 @@
         var nowTime = nowTimeOfHourMinuteFormat();
         for (var i = 0; i < agendaOptionSet.length; i++) {
           var agendaOption = agendaOptionSet[i];
-          if (diffTimeByMinutes(nowTime, agendaOption.timeStart)) {
+          if (diffTimeByMinutes(nowTime, agendaOption.timeStart) > 0) {
             timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
             agendaOption.topElement.style.backgroundColor = "";
-          } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime)) {
+          } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime) > 0) {
             timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
             agendaOption.topElement.style.backgroundColor = "";
           } else if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
@@ -99,7 +102,7 @@
       function configureTimer() {
         setInterval(paintNowTime, 1000);
         setInterval(paintTimeLine, 800);
-        setInterval(setupAgendaOptionSet, 200);
+        setInterval(setupAgendaOptionSet, 50);
       }
       checkSyntax();
       configureTimer();
