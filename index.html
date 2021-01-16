@@ -87,10 +87,10 @@
       var agendaOptionList = document.getElementsByClassName("agendaOption");
       for (var i = 0; i < AGENDA_RULE_SET.length; i++) {
         var agendaOption = {};
-        agendaOption.timeStart = AGENDA_RULE_SET.replace(/^(.{5}).+$/, "$1");
-        agendaOption.timeEnd = AGENDA_RULE_SET.replace(/^.{6}(.{5}).+$/, "$1");
+        agendaOption.timeStart = AGENDA_RULE_SET[i].replace(/^(.{5}).+$/, "$1");
+        agendaOption.timeEnd = AGENDA_RULE_SET[i].replace(/^.{6}(.{5}).+$/, "$1");
         agendaOption.timeLength = diffTimeByMinutes(agendaOption.timeStart, agendaOption.timeEnd);
-        agendaOption.title = AGENDA_RULE_SET.substr(12);
+        agendaOption.title = AGENDA_RULE_SET[i].substr(12);
         agendaOption.elementTop = agendaOptionList[i];
         agendaOption.elementTitle = agendaTitleList[i];
         agendaOptionSet.push(agendaOption);
