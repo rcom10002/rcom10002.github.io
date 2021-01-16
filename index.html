@@ -5,6 +5,10 @@
         position: relative;
         top: -12px;
       }
+      .agendaOption {
+        border-top-style: solid;
+        border-top-width: thin;
+      }
       body {
         padding: 0;
         margin: 0;
@@ -34,7 +38,7 @@
         var agendaOptionList = document.getElementsByClassName("agendaOption");
         for (var i = 0; i < agendaOptionList.length; i++) {
           var agendaOptionText = agendaTitleList[i].innerHTML.trim();
-          agendaOption = {};
+          var agendaOption = {};
           agendaOption.timeStart = agendaOptionText.replace(/^(.{5}).+$/, "$1");
           agendaOption.timeEnd = agendaOptionText.replace(/^.{6}(.{5}).+$/, "$1");
           agendaOption.timeLength = diffTimeByMinutes(agendaOption.timeStart, agendaOption.timeEnd);
@@ -96,6 +100,13 @@
         document.getElementById("nowTime").innerHTML = new Date().toJSON().replace(/[.].+Z/, '').replace(/T/, ' ');
       }
 
+      /**
+       *
+       */
+      function paintContent(){
+        document.getElementById("nowTime").innerHTML = new Date().toJSON().replace(/[.].+Z/, '').replace(/T/, ' ');
+      }
+
       function nowTimeOfHourMinuteFormat() {
         return new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' });
       }
@@ -109,11 +120,13 @@
         setInterval(setupAgendaOptionSet, 50);
       }
       checkSyntax();
+      paintContent();
       configureTimer();
     </script>
   </head>
 <body>
   <p>现在时间：<span id="nowTime"></span></p>
+  <p>
   <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">09:30~10:15 数学小卷三页</p></p>
   <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:15~10:30 用小猿口算检查改正错题</p></p>
 <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:30~10:45 休息15分钟，蹦床或跳绳200次</p></p>
@@ -128,5 +141,6 @@
 <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:45~16:15 斑马英语</p></p>
 <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">16:15~17:00 攀登三本书</p></p>
 <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">19:30~20:15 英语会读会写一个 Module单词(两天内完成，自己找时间)</p></p>
+</p>
 </body>
 </html>
