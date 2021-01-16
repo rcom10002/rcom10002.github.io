@@ -16,7 +16,12 @@
       /**
        *
        */
-      function setupAgendaOptionSet(){
+      function setupAgendaOptionSet() {
+        if (this.initialised) {
+          return;
+        }
+        this.initialised = true;
+        
         var agendaList = document.getElementsByClassName("title");
         for (var i = 0; i < agendaList.length; i++) {
           var agendaOptionText = agendaList[i].innerHTML.trim();
@@ -39,15 +44,31 @@
       /**
        *
        */
-      function paintTimeLine(){
+      function isBetween(timeStart, timeEnd, timeSlot) {
+        return diffTimeByMinutes(timeStart, timeSlot) > 0 && diffTimeByMinutes(timeSlot, timeEnd) > 0;
+      }
+
+      /**
+       *
+       */
+      function paintTimeLine() {
+        var timeIndicators = document.getElementsByClassName("timeIndicator");
+        
         if (!this.initialised) {
+          // once only
           for (var i = 0; i < agendaOptionSet.length; i++) {
-            document.getElementsByClassName("timeIndicator")[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
+            timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
           }
           this.initialised = true;
         }
+        
+        // execute repeatedly
+        var nowTime = nowTimeOfHourMinuteFormat();
         for (var i = 0; i < agendaOptionSet.length; i++) {
-          document.getElementsByClassName("timeIndicator")[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
+          var agendaOption = agendaOptionSet[i];
+          if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
+            timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
+          }
         }
       }
 
@@ -58,15 +79,17 @@
         document.getElementById("nowTime").innerHTML = new Date().toJSON().replace(/[.].+Z/, '').replace(/T/, ' ');
       }
 
+      function nowTimeOfHourMinuteFormat() {
+        new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' })
+      }
+      
       /**
        *
        */
       function configureTimer() {
         setInterval(paintNowTime, 1000);
         setInterval(paintTimeLine, 800);
-        window.onLoad = function() {
-          setupAgendaOptionSet();
-        }
+        setInterval(setupAgendaOptionSet, 200);
       }
       checkSyntax();
       configureTimer();
