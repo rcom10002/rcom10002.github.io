@@ -62,11 +62,13 @@
        *
        */
       function configureTimer() {
-          setInterval(paintNowTime, 1000);
-          setInterval(paintTimeLine, 800);
+        setInterval(paintNowTime, 1000);
+        setInterval(paintTimeLine, 800);
+        window.onLoad = function() {
+          setupAgendaOptionSet();
+        }
       }
       checkSyntax();
-      setupAgendaOptionSet();
       configureTimer();
     </script>
   </head>
