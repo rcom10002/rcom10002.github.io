@@ -22,14 +22,14 @@
       background-color: crimson;
       color: white;
       padding: 6px;
-      font-size: 24px;
+      font-size: 48px;
     }
 
     body {
       padding: 0;
       margin: 0;
       font-family: "SimHei";
-      font-size: 16px;
+      font-size: 24px;
     }
   </style>
 
@@ -142,17 +142,17 @@
         var agendaOption = agendaOptionSet[i];
         var timeLength = agendaOptionSet[i].timeLength;
         if (diffTimeByMinutes(nowTime, agendaOption.timeStart) > 0) {
-          timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(timeLength);
+          //timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(timeLength);
           agendaOption.elementTop.style.backgroundColor = "";
           paintProgress(0, timeLength, i);
         } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime) >= 0) {
-          timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(timeLength);
+          //timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(timeLength);
           agendaOption.elementTop.style.backgroundColor = "";
           paintProgress(timeLength, timeLength, i);
         } else if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
           var timeUsed = diffTimeByMinutes(agendaOption.timeStart, nowTime);
           var timeLeft = diffTimeByMinutes(nowTime, agendaOption.timeEnd);
-          timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(timeUsed) + TIME_LEFT_ICON.repeat(timeLeft);
+          //timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(timeUsed) + TIME_LEFT_ICON.repeat(timeLeft);
           agendaOption.elementTop.style.backgroundColor = ACTIVE_COLOR;
           paintProgress(timeUsed, timeLength, i);
         }
