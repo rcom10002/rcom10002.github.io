@@ -46,7 +46,7 @@
       /**
        *
        */
-      function isBetween(timeStart, timeEnd, timeSlot) {
+      function isTimeBetween(timeStart, timeEnd, timeSlot) {
         return diffTimeByMinutes(timeStart, timeSlot) > 0 && diffTimeByMinutes(timeSlot, timeEnd) > 0;
       }
 
@@ -75,7 +75,7 @@
             timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
             agendaOption.topElement.style.backgroundColor = "";
           } else if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
-            timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
+            timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(diffTimeByMinutes(agendaOption.timeStart, nowTime)) + TIME_LEFT_ICON.repeat(diffTimeByMinutes(nowTime, agendaOption.timeEnd));
             agendaOption.topElement.style.backgroundColor = "pink";
           }
         }
