@@ -22,14 +22,16 @@
         }
         this.initialised = true;
         
-        var agendaList = document.getElementsByClassName("title");
-        for (var i = 0; i < agendaList.length; i++) {
-          var agendaOptionText = agendaList[i].innerHTML.trim();
+        var agendaTitleList = document.getElementsByClassName("title");
+        var agendaOptionList = document.getElementsByClassName("agendaOption");
+        for (var i = 0; i < agendaOptionList.length; i++) {
+          var agendaOptionText = agendaTitleList[i].innerHTML.trim();
           agendaOption = {};
           agendaOption.timeStart = agendaOptionText.replace(/^(.{5}).+$/, "$1");
           agendaOption.timeEnd = agendaOptionText.replace(/^.{6}(.{5}).+$/, "$1");
           agendaOption.timeLength = diffTimeByMinutes(agendaOption.timeStart, agendaOption.timeEnd);
           agendaOption.title = agendaOptionText.substr(12);
+          agendaOption.topElement = agendaOptionList[i];
           agendaOptionSet.push(agendaOption);
         }
       }
@@ -66,8 +68,15 @@
         var nowTime = nowTimeOfHourMinuteFormat();
         for (var i = 0; i < agendaOptionSet.length; i++) {
           var agendaOption = agendaOptionSet[i];
-          if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
+          if (diffTimeByMinutes(nowTime, agendaOption.timeStart)) {
+            timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
+            agendaOption.topElement.style.backgroundColor = "";
+          } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime)) {
             timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
+            agendaOption.topElement.style.backgroundColor = "";
+          } else if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
+            timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
+            agendaOption.topElement.style.backgroundColor = "pink";
           }
         }
       }
@@ -97,19 +106,19 @@
   </head>
 <body>
   <p>现在时间：<span id="nowTime"></span></p>
-  <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">09:30~10:15 数学小卷三页</p></p>
-  <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:15~10:30 用小猿口算检查改正错题</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:30~10:45 休息15分钟，蹦床或跳绳200次</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:45~11:00 英语，听一个Unit的朗读(会背后学下一个Unit)</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:00~11:15 英语，阅读听过的Unit五遍</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:15~11:45 英语默写一页(先背诵，再找出并写下生词，书空生词，默写整页)</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:15~11:45 中午休息</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">14:00~14:30 下学期语文书，每日读一课，读两遍</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">14:30~15:15 默写一首会背的古诗(先背诵，再找出并写下生字，书空生字，默写)</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:15~15:30 读古诗十遍，长的读一首就行，短的需要读两首(会背诵后就换新的读)</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:30~15:45 休息15分钟，蹦床或跳绳200次</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:45~16:15 斑马英语</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">16:15~17:00 攀登三本书</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">19:30~20:15 英语会读会写一个 Module单词(两天内完成，自己找时间)</p></p>
+  <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">09:30~10:15 数学小卷三页</p></p>
+  <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:15~10:30 用小猿口算检查改正错题</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:30~10:45 休息15分钟，蹦床或跳绳200次</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:45~11:00 英语，听一个Unit的朗读(会背后学下一个Unit)</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:00~11:15 英语，阅读听过的Unit五遍</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:15~11:45 英语默写一页(先背诵，再找出并写下生词，书空生词，默写整页)</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:15~11:45 中午休息</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">14:00~14:30 下学期语文书，每日读一课，读两遍</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">14:30~15:15 默写一首会背的古诗(先背诵，再找出并写下生字，书空生字，默写)</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:15~15:30 读古诗十遍，长的读一首就行，短的需要读两首(会背诵后就换新的读)</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:30~15:45 休息15分钟，蹦床或跳绳200次</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">15:45~16:15 斑马英语</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">16:15~17:00 攀登三本书</p></p>
+<p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">19:30~20:15 英语会读会写一个 Module单词(两天内完成，自己找时间)</p></p>
 </body>
 </html>
