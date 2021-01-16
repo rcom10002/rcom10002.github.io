@@ -14,6 +14,13 @@
         margin: 0;
       }
     </style>
+
+  </head>
+<body>
+  <p>现在时间：<span id="nowTime"></span></p>
+  <p id="content">
+
+</p>
     <script id="contentItemTemplate" type="text/template">
       <p class="agendaOption"><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">#{AGENDA_RULE}</p></p>
     </script>
@@ -149,11 +156,5 @@
       paintContent();
       configureTimer();
     </script>
-  </head>
-<body>
-  <p>现在时间：<span id="nowTime"></span></p>
-  <p id="content">
-
-</p>
 </body>
 </html>
