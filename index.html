@@ -8,8 +8,8 @@
     }
 
     .agendaOption {
-      border-top-style: solid;
-      border-top-width: thin;
+      /* border-top-style: solid;
+      border-top-width: thin; */
     }
     
     .timeIndicator {
@@ -22,6 +22,7 @@
       background-color: crimson;
       color: white;
       padding: 6px;
+      font-size: larger;
     }
 
     body {
@@ -132,10 +133,11 @@
         if (diffTimeByMinutes(nowTime, agendaOption.timeStart) > 0) {
           timeIndicators[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
           agendaOption.elementTop.style.backgroundColor = "";
-        } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime) > 0) {
+        } else if (diffTimeByMinutes(agendaOption.timeEnd, nowTime) >= 0) {
           timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(agendaOptionSet[i].timeLength);
           agendaOption.elementTop.style.backgroundColor = "";
-        } else if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
+        }
+        if (isTimeBetween(agendaOption.timeStart, agendaOption.timeEnd, nowTime)) {
           timeIndicators[i].innerHTML = TIME_USED_ICON.repeat(diffTimeByMinutes(agendaOption.timeStart, nowTime)) + TIME_LEFT_ICON.repeat(diffTimeByMinutes(nowTime, agendaOption.timeEnd));
           agendaOption.elementTop.style.backgroundColor = ACTIVE_COLOR;
         }
