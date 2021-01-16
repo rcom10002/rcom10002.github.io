@@ -128,7 +128,7 @@
         var contentItemListBuilder = [];
         var template = document.getElementById("contentItemTemplate").innerHTML;
         for (var i = 0; i < AGENDA_RULE_SET.length; i++) {
-          contentItemListBuilder.push(template.replace("${AGENDA_RULE}", AGENDA_RULE_SET[i]));
+          contentItemListBuilder.push(template.replace(/[$][{]AGENDA_RULE[}]/, AGENDA_RULE_SET[i]));
         }
         document.getElementById("content").innerHTML = contentItemListBuilder.join("");
       }
