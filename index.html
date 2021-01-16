@@ -7,7 +7,15 @@
       var TIME_USED_ICON = "■";
       var TIME_LEFT_ICON = "□";
       var agendaOptionSet = [];
+
+      /**
+       *
+       */
       function checkSyntax(){}
+
+      /**
+       *
+       */
       function setupAgendaOptionSet(){
         var agendaList = document.getElementsByClassName("title");
         for (var i = 0; i < agendaList.length; i++) {
@@ -20,23 +28,39 @@
           agendaOptionSet.push(agendaOption);
         }
       }
+
+      /**
+       *
+       */
       function diffTimeByMinutes(timeStart, timeEnd) {
         return (timeEnd.substr(0, 2) - timeStart.substr(0, 2)) * 60 + (timeEnd.substr(3, 2) - 0) - timeStart.substr(3, 2);
       }
+
+      /**
+       *
+       */
       function paintTimeLine(){
         if (!this.initialised) {
           for (var i = 0; i < agendaOptionSet.length; i++) {
-            document.getElementsByClassName("timeIndicator")[i].innerHTML = "■".repeat(agendaOptionSet[i].timeLength);
+            document.getElementsByClassName("timeIndicator")[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
           }
           this.initialised = true;
         }
         for (var i = 0; i < agendaOptionSet.length; i++) {
-          document.getElementsByClassName("timeIndicator")[i].innerHTML = "■".repeat(agendaOptionSet[i].timeLength);
+          document.getElementsByClassName("timeIndicator")[i].innerHTML = TIME_LEFT_ICON.repeat(agendaOptionSet[i].timeLength);
         }
       }
+
+      /**
+       *
+       */
       function paintNowTime(){
         document.getElementById("nowTime").innerHTML = new Date().toJSON().replace(/[.].+Z/, '').replace(/T/, ' ');
       }
+
+      /**
+       *
+       */
       function configureTimer() {
           setInterval(paintNowTime, 1000);
           setInterval(paintTimeLine, 800);
@@ -50,7 +74,7 @@
   <p>现在时间：<span id="nowTime"></span></p>
   <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">09:30~10:15 数学小卷三页</p></p>
   <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:15~10:30 用小猿口算检查改正错题</p></p>
-<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:30~11:45 休息15分钟，蹦床或跳绳200次</p></p>
+<p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:30~10:45 休息15分钟，蹦床或跳绳200次</p></p>
 <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">10:45~11:00 英语，听一个Unit的朗读(会背后学下一个Unit)</p></p>
 <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:00~11:15 英语，阅读听过的Unit五遍</p></p>
 <p><p class="timeLine"><span class="timeIndicator"></span></p><p class="title">11:15~11:45 英语默写一页(先背诵，再找出并写下生词，书空生词，默写整页)</p></p>
