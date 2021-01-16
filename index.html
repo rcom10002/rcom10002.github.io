@@ -4,29 +4,39 @@
       
     </style>
     <script>
-      var agendaOptions = [];
+      var TIME_USED_ICON = "■";
+      var TIME_LEFT_ICON = "□";
+      var agendaOptionSet = [];
       function checkSyntax(){}
-      function parseTimeRange(){
+      function setupAgendaOptionSet(){
         var agendaList = document.getElementsByClassName("title");
         for (var i = 0; i < agendaList.length; i++) {
           var agendaOptionText = agendaList[i].innerHTML.trim();
           agendaOption = {};
           agendaOption.timeBegin = agendaOptionText.replace(/^(.{5}).+$/, "$1");
           agendaOption.timeEnd = agendaOptionText.replace(/^.{6}(.{5}).+$/, "$1");
-          agendaOption.timeLength = (timeEnd.substr(0, 2) - timeStart.substr(0, 2)) * 60 + (timeEnd.substr(3, 2) - 0) - timeStart.substr(3, 2);
+          agendaOption.timeLength = diffTimeByMinutes(agendaOption.timeStart, agendaOption.timeEnd);
           agendaOption.title = agendaOptionText.substr(12);
-          agendaOptions.push(agendaOption);
+          agendaOptionSet.push(agendaOption);
         }
       }
+      function diffTimeByMinutes(timeStart, timeEnd) {
+        return (timeEnd.substr(0, 2) - timeStart.substr(0, 2)) * 60 + (timeEnd.substr(3, 2) - 0) - timeStart.substr(3, 2);
+      }
       function paintTimeLine(){
-        document.getElementsByClassName("timeLine").getElementByTagName("span")
+        for (var i = 0; i < agendaOptionSet.length; i++) {
+          document.getElementsByTagName("span")[i].innerHTML = "■□";
+        }
       }
       function paintNowTime(){
         document.getElementById("nowTime").innerHTML = new Date().toJSON().replace(/[.].+Z/, '').replace(/T/, ' ');
       }
       function configureTimer() {
-          setInterval(paintNowTime, 1000)
+          setInterval(paintNowTime, 1000);
+          setInterval(paintTimeLine, 800);
       }
+      checkSyntax();
+      setupAgendaOptionSet();
       configureTimer();
     </script>
   </head>
